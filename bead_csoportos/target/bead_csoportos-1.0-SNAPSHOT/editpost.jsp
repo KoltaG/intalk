@@ -17,14 +17,16 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Poszt módosítása</title>
+          <link rel="stylesheet" href="css/bootstrap.min.css" />
     </head>
-    <body>
+     <body style="background-color:burlywood">
+        <div class="container mt-5">
         <h1>Üdvözlöm, <%= session.getAttribute("validuser") %>!</h1>
         <form action="check.jsp" method="POST">
-            <input type="submit" name="logout" value="Logout">
-            <input type="submit" name="back" value="Vissza a főoldalra"> 
+               <input class=" btn btn-primary"  type="submit" name="back" value="Vissza a főoldalra"> 
+               <input class=" btn btn-danger float-right"  type="submit" name="logout" value="Logout">
         </form>
-        <hr width="50%" align="left">
+<hr width="100%" >
         
         <sql:query var="posztok" dataSource="${felhasznalok}">
             SELECT * FROM post WHERE post_id=${param.postid}
@@ -32,21 +34,20 @@
             <c:forEach var="poszt" items="${posztok.rows}">
 
             <form action="check.jsp" method="POST">
-            <table>
-                <tr><td>
-            <textarea name="post" cols="50" rows="30" >${poszt.post}</textarea>
-                    </td></tr><tr><td>
+           
+           <textarea class="form-control" name="post" cols="50" rows="20" >${poszt.post}</textarea>
+               
             <input type="hidden" name="postid" value="${param.postid}">
-            <input type="submit" name="edit_post" value="Poszt módosítása">
-                    </td></tr>
-            </table>
+            <input class=" btn btn-success mt-5" type="submit" name="edit_post" value="Poszt módosítása">
+                 
         </form>
             </c:forEach>
        
-        <hr width="50%" align="left">
+        <hr width="100%" >
         <c:if test="${!empty param.errorMsg}">
-            <p><font color="red">${param.errorMsg}</font></p>
+            <p class="text-danger">${param.errorMsg}</p>
         </c:if>
+        </div>
     </body>
 </html>
 <% } else { %>

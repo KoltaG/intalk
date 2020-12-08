@@ -26,7 +26,7 @@
              <input class=" btn btn-primary" type="submit" name="back" value="Vissza a főoldalra"> 
              <input class=" btn btn-danger float-right" type="submit" name="logout" value="Logout">
         </form>
-        <hr width="50%" align="left">
+        <hr width="100%">
         <form action="check.jsp" method="POST">
             
               
@@ -36,9 +36,10 @@
                  
            
         </form>
-        <hr width="50%" align="left">
+ <hr width="100%">
         <c:if test="${!empty param.errorMsg}">
-            <p><font color="red">${param.errorMsg}</font></p>
+            
+            <p class="text-danger">${param.errorMsg}</p>
         </c:if>
             </div>
     </body>
