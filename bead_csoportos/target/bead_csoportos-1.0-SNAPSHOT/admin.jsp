@@ -30,19 +30,21 @@ String user = session.getAttribute("validuser").toString();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin page</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
     </head>
-    <body>
-        
+    <body style="background-color:burlywood">
+        <div class="container mt-5">
         <h1>Üdvözlöm, Admin <%= session.getAttribute("validuser") %>!</h1>
         <hr>
         <form action="check.jsp" method="POST">
-            <input type="submit" name="logout" value="Logout">
-            <input type="submit" name="back" value="Vissza a főoldalra"> 
+           
+            <input class=" btn btn-primary" type="submit" name="back" value="Vissza a főoldalra"> 
+             <input class=" btn btn-danger float-right" type="submit" name="logout" value="Logout">
             <c:if test="${!empty param.errorMsg}">
-            <p><font color="red">${param.errorMsg}</font></p>
+            <p class="text-danger">${param.errorMsg}</p>
             </c:if>
             <c:if test="${!empty param.succMsg}">
-            <p><font color="green">${param.succMsg}</font></p>
+            <p class="text-success">${param.succMsg}</p>
             </c:if>
             <hr>
         </form>
@@ -74,14 +76,14 @@ String user = session.getAttribute("validuser").toString();
                             </c:choose>
                         </td>
                         <input type="hidden" name="user_id_del" value="${row.id}">
-                        <td> <input type="submit" name="delete_user" value="Felhasználó törlése"> </td>
+                        <td class="pl-2"> <input class=" btn btn-danger" type="submit" name="delete_user" value="Felhasználó törlése"> </td>
                 </form>
                         <form action="admin.jsp" method="POST">
                             <input type="hidden" name="user_id_del" value="${row.id}">
                             <input type="hidden" name="user_name_del" value="${row.username}">
                             <input type="hidden" name="user_password_del" value="${row.password}">
                             <input type="hidden" name="user_rank_del" value="${row.rank}">
-                            <td> <input type="submit" name="edit_user" value="Felhasználó módosítása"> </td>
+                            <td> <input class=" btn btn-primary" type="submit" name="edit_user" value="Felhasználó módosítása"> </td>
                         </form>
                     </tr>
             </c:forEach>
@@ -89,14 +91,14 @@ String user = session.getAttribute("validuser").toString();
 
         <h2>Felhasználó felvétele</h2>
         <form action="check.jsp" method="POST">
-            <table>
+            <table class="">
                 <tr>
                     <td>Felhasználónév: </td>
-                    <td><input type="text" name="username"></td>
+                    <td><input class="form-control" type="text" name="username"></td>
                 </tr>
                 <tr>
                     <td>Jelszó:</td>
-                    <td><input type="password" name="password"></td>
+                    <td><input class="form-control"  type="password" name="password"></td>
                 </tr>
                 <tr>
                     <td>Jogosultság:  </td>
@@ -119,9 +121,9 @@ String user = session.getAttribute("validuser").toString();
             <table>
             <form action="check.jsp" method="POST">
                 <tr><td>
-                        Felhasználónév: <input type="text" name="username" value="${param.user_name_del}"></td></tr>
+                        Felhasználónév: <input class="form-control" name="username" value="${param.user_name_del}"></td></tr>
                 <tr><td>
-                Jelszó: <input type="text" name="password" value="${param.user_password_del}"></td></tr>
+                Jelszó: <input class="form-control" type="text" name="password" value="${param.user_password_del}"></td></tr>
                 <c:choose>
                     <c:when test="${param.user_rank_del == 0}">
                         <tr><td>
@@ -150,6 +152,7 @@ String user = session.getAttribute("validuser").toString();
             </form>
             </table>
         </c:if>
+            </div>
     </body>
 </html>
 <% } else { %>

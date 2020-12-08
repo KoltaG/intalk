@@ -38,7 +38,7 @@ String user = session.getAttribute("validuser").toString();
          <link rel="stylesheet" href="css/bootstrap.min.css" />
     </head>
     <body style="background-color:burlywood">
-        <div class="container">
+        <div class="container mt-5">
         <h1>Üdvözlöm, <%= session.getAttribute("validuser") %>!</h1>
         <h3><b>Rangod az oldalon: </b>${rang}</h3>
         <hr>

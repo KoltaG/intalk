@@ -17,27 +17,30 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Új poszt létrehozása</title>
+         <link rel="stylesheet" href="css/bootstrap.min.css" />
     </head>
-    <body>
+    <body style="background-color:burlywood">
+        <div class="container mt-5">
         <h1>Üdvözlöm, <%= session.getAttribute("validuser") %>!</h1>
         <form action="check.jsp" method="POST">
-            <input type="submit" name="logout" value="Logout">
-            <input type="submit" name="back" value="Vissza a főoldalra"> 
+             <input class=" btn btn-primary" type="submit" name="back" value="Vissza a főoldalra"> 
+             <input class=" btn btn-danger float-right" type="submit" name="logout" value="Logout">
         </form>
         <hr width="50%" align="left">
         <form action="check.jsp" method="POST">
-            <table>
-                <tr><td>
-            <textarea name="post" cols="50" rows="30"></textarea>
-                    </td></tr><tr><td>
-            <input type="submit" name="create_post" value="Poszt létrehozása">
-                    </td></tr>
-            </table>
+            
+              
+            <textarea class="form-control" name="post" cols="50" rows="20" ></textarea>
+                 
+                        <input class=" btn btn-success mt-5" type="submit" name="create_post" value="Poszt létrehozása">
+                 
+           
         </form>
         <hr width="50%" align="left">
         <c:if test="${!empty param.errorMsg}">
             <p><font color="red">${param.errorMsg}</font></p>
         </c:if>
+            </div>
     </body>
 </html>
 <% } else { %>
