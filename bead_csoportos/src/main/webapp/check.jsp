@@ -182,16 +182,25 @@
             </jsp:forward>
         </c:when>
         <c:when test="${!empty param.edit_post}">
-            <%int id3 = Integer.parseInt(request.getParameter("postid"));%>
-            <sql:update var="eredmeny" dataSource="${felhasznalok}">
-                UPDATE post
-                SET post = '${param.post}'
-                WHERE post_id = <%= id3 %>
-            </sql:update>
+            <c:choose>
+                <c:when test="${!empty param.post}">
+                <%int id3 = Integer.parseInt(request.getParameter("postid"));%>
+                <sql:update var="eredmeny" dataSource="${felhasznalok}">
+                    UPDATE post
+                    SET post = '${param.post}'
+                    WHERE post_id = <%= id3 %>
+                </sql:update>
             
-            <jsp:forward page="main.jsp">
-                <jsp:param name="succMsg" value="Sikeresen módosítottad a posztod."/>
-            </jsp:forward>
+                <jsp:forward page="main.jsp">
+                    <jsp:param name="succMsg" value="Sikeresen módosítottad a posztod."/>
+                </jsp:forward>
+                </c:when>
+                <c:otherwise>
+                    <jsp:forward page="editpost.jsp">
+                        <jsp:param name="errorMsg" value="Nem adott meg szöveget a poszthoz!"/>
+                    </jsp:forward>
+                </c:otherwise>
+            </c:choose>
         </c:when>
         <c:when test="${!empty param.create_post}">
             <c:choose>

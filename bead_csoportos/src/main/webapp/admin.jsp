@@ -109,7 +109,7 @@ String user = session.getAttribute("validuser").toString();
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="submit" name="register_user" value="Regisztrálás">
+                       <input class=" btn btn-success" type="submit" name="register_user" value="Regisztrálás">
                     </td>
                 </tr>
             </table>    
@@ -148,7 +148,7 @@ String user = session.getAttribute("validuser").toString();
                     </c:when>
                 </c:choose>
                         <input type="hidden" name="userid" value="${param.user_id_del}">
-                        <tr><td><input type="submit" name="edit_user" value="Adatok módosítása">
+                        <tr><td><input class=" btn btn-success" type="submit" name="edit_user" value="Adatok módosítása">
             </form>
             </table>
         </c:if>
