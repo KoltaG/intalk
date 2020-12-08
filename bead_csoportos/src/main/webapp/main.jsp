@@ -35,22 +35,26 @@ String user = session.getAttribute("validuser").toString();
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Főoldal</title>
+         <link rel="stylesheet" href="css/bootstrap.min.css" />
     </head>
-    <body>
+    <body style="background-color:burlywood">
+        <div class="container">
         <h1>Üdvözlöm, <%= session.getAttribute("validuser") %>!</h1>
         <h3><b>Rangod az oldalon: </b>${rang}</h3>
         <hr>
+    
         <form action="check.jsp" method="POST">
-            <input type="submit" name="logout" value="Logout">
-            <input type="submit" name="newpost" value="Új poszt">
+            
+            <input class=" btn btn-success" type="submit" name="newpost" value="Új poszt">
             <c:if test="${rang == 'adminisztrátor'}">
-                <input type="submit" value="Admin oldal" name="admin">        
+                <input class=" btn btn-primary" type="submit" value="Admin oldal" name="admin">        
             </c:if>
+                <input class=" btn btn-danger float-right" type="submit" name="logout" value="Logout">
             <c:if test="${!empty param.errorMsg}">
-            <p><font color="red">${param.errorMsg}</font></p>
+            <p class="text-danger mt-2">${param.errorMsg}</p>
             </c:if>
             <c:if test="${!empty param.succMsg}">
-            <p><font color="green">${param.succMsg}</font></p>
+             <p class="text-success mt-2">${param.succMsg}</p>
             </c:if>
             <hr>
         </form>
@@ -58,26 +62,29 @@ String user = session.getAttribute("validuser").toString();
             SELECT * FROM post ORDER BY created_time DESC
         </sql:query>
         <c:forEach var="poszt" items="${posztok.rows}">
-            <table>
-                <tr>
-                    <td>PostID: ${poszt.post_id}</td><td>Created by: ${poszt.author}</td><td>at ${poszt.created_time}</td>
-                </tr>
-                <tr>
-                    <td colspan="3">${poszt.post}</td>
-                </tr>
-                        
+           <div style="border-bottom: 2px solid black" class="py-3">
+                
+                <div class="row">
+                    <div class="col-12">${poszt.post}</div>
+                </div>
+                        <div class="row mt-3">
+                    <!-- <div class="col-6">${poszt.post_id}</div> -->
+                            <div class="col-6"><p>Created by: ${poszt.author}<br>at ${poszt.created_time}</p></div>
+                </div>
                         <c:if test="${rang != 'felhasználó' || user == poszt.author}">
-                    <tr><td>
+                    <div class="row"><div class="col-6">
                     <form action="check.jsp" method="POST">
                         <input type="hidden" value="${poszt.post_id}" name="postid">
-                        <input type="submit" value="Szerkesztés" name="edit">
-                        <input type="submit" value="Törlés" name="delete">
+                        <input class=" btn btn-primary" type="submit" value="Szerkesztés" name="edit">
+                        <input class=" btn btn-danger" type="submit" value="Törlés" name="delete">
                     </form>    
-                    </td></tr>
+                    </div>
+                </div>
                     </c:if>
-            </table>
-            <hr align="left" width="50%">
+            </div>
+           
         </c:forEach>
+                </div>
     </body>
 </html>
 <% } else { %>

@@ -20,7 +20,7 @@
             <c:choose>
                 <c:when test="${(empty param.username) || (empty param.password)}">
                     <jsp:forward page="login.jsp">
-                        <jsp:param name="errorMsg" value=" Az e-mail és jelszó megadása kötelező!"/>       
+                        <jsp:param name="errorMsg" value="Felhasználó név és jelszó megadása kötelező!"/>       
                     </jsp:forward>
                 </c:when>
                 <c:otherwise>
@@ -43,6 +43,44 @@
             </c:choose>
 
         </c:when>
+        <c:when test="${!empty param.edit_user}">
+            
+            <c:choose>
+                <c:when test="${(empty param.username) || (empty param.password)}">
+                    <jsp:forward page="admin.jsp">
+                        <jsp:param name="errorMsg" value="Felhasználó név és jelszó megadása kötelező!"/>       
+                    </jsp:forward>
+                </c:when>
+                <c:otherwise>
+                    <sql:query var="eredmeny" dataSource="${felhasznalok}">
+                        SELECT * FROM users WHERE username='${param.username}'
+                    </sql:query>
+                        <c:choose>
+                            <c:when test="${eredmeny.rowCount>1}">
+                                <jsp:forward page="admin.jsp">
+                                <jsp:param name="errorMsg" value="Felhasználónév foglalt!" />
+                            </jsp:forward>
+                            </c:when>
+                            <c:otherwise>
+                                <sql:update var="modosit" dataSource="${felhasznalok}">
+                                    UPDATE users
+                                    SET username = '${param.username}', password = '${param.password}', rank = ${param.rang}
+                                    WHERE id = ${param.userid}
+                                </sql:update>
+                                <jsp:forward page="admin.jsp">
+                                    <jsp:param name="succMsg" value="Felhasználó adatok módosítása sikeres!"/>       
+                                </jsp:forward> 
+                            </c:otherwise>
+                        </c:choose>
+
+                </c:otherwise>
+            </c:choose>
+            
+            
+            
+            
+        </c:when>
+      
         <c:when test="${!empty param.register}">
             <c:choose>
                 <c:when test="${empty param.username || empty param.password}">
@@ -51,13 +89,25 @@
                     </jsp:forward>
                 </c:when>
                 <c:otherwise>
-                    <sql:update var="eredmeny" dataSource="${felhasznalok}">
-                        INSERT INTO users (username, password)
-                        VALUES ('${param.username}', '${param.password}')
-                    </sql:update>
+                        <sql:query var="hany" dataSource="${felhasznalok}">
+                            SELECT username FROM users WHERE username='${param.username}'
+                        </sql:query>
+                    <c:choose>
+                        <c:when test="${hany.rowCount>0}">
+                            <jsp:forward page="registration.jsp">
+                                <jsp:param name="errorMsg" value="Felhasználónév foglalt!" />
+                            </jsp:forward>
+                        </c:when>
+                        <c:otherwise>
+                            <sql:update var="eredmeny" dataSource="${felhasznalok}">
+                            INSERT INTO users (username, password)
+                            VALUES ('${param.username}', '${param.password}')
+                            </sql:update>
                         <jsp:forward page="login.jsp">
                             <jsp:param name="succMsg" value="Sikeresen regisztráltál!" />
                         </jsp:forward>
+                        </c:otherwise>
+                    </c:choose>
                 </c:otherwise>
             </c:choose>
                
@@ -84,13 +134,25 @@
                     </jsp:forward>
                 </c:when>
                 <c:otherwise>
-                    <sql:update var="hozzaad" dataSource="${felhasznalok}">
-                        INSERT INTO users (username, password, rank)
-                        VALUES ('${param.username}', '${param.password}', ${param.rang})
-                    </sql:update>
+                    <sql:query var="hany" dataSource="${felhasznalok}">
+                            SELECT username FROM users WHERE username='${param.username}'
+                    </sql:query>
+                    <c:choose>
+                        <c:when test="${hany.rowCount>0}">
+                            <jsp:forward page="admin.jsp">
+                                <jsp:param name="errorMsg" value="Felhasználónév foglalt!" />
+                            </jsp:forward>
+                        </c:when>
+                        <c:otherwise>
+                            <sql:update var="hozzaad" dataSource="${felhasznalok}">
+                                INSERT INTO users (username, password, rank)
+                                VALUES ('${param.username}', '${param.password}', ${param.rang})
+                            </sql:update>
                         <jsp:forward page="admin.jsp">
                             <jsp:param name="succMsg" value="Felhasználó sikeresen hozzáadva!"/>
                         </jsp:forward>
+                        </c:otherwise>
+                    </c:choose>
                 </c:otherwise>
             </c:choose>
         </c:when>
